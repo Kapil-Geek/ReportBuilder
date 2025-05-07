@@ -74,7 +74,7 @@
                     </ul>
 
                     <ul *ngIf="selectedModule == 'Timesheets'">
-                      <li *ngFor="let item of availableJobFields"
+                      <li *ngFor="let item of availableTimesheetsFields"
                         class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
                           {{item}}</span><button class="text-blue-600"
                           (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
@@ -84,8 +84,8 @@
                             <path d="M12 5v14"></path>
                           </svg></button></li>
                     </ul>
-                    <ul *ngIf="selectedModule == 'Absence'">
-                      <li *ngFor="let item of availableJobFields"
+                    <ul *ngIf="selectedModule == 'Invoice'">
+                      <li *ngFor="let item of availableInvoiceFields"
                         class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
                           {{item}}</span><button class="text-blue-600"
                           (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
@@ -195,9 +195,6 @@
         <div *ngIf="sectionOpen.output">
           <label class="block mb-2">Report Title</label>
           <input type="text" [(ngModel)]="reportTitle" class="border px-3 py-2 w-full mb-4" />
-
-          <label class="block mb-2">Group By</label>
-          <input type="text" [(ngModel)]="groupBy" class="border px-3 py-2 w-full" />
         </div>
       </div>
       <!-- End Output Section -->
@@ -209,18 +206,17 @@
     <div class="bg-white shadow rounded-lg p-4">
       <div class="flex gap-4 justify-end">
         <button class="bg-gray-200 px-4 py-2 rounded" (click)="cancel()">Cancel</button>
-        <button class="border px-4 py-2 rounded" (click)="saveDraft()">Save Draft</button>
+        <!-- <button class="border px-4 py-2 rounded" (click)="saveDraft()">Save Draft</button> -->
         <button class="bg-blue-100 text-blue-700 px-4 py-2 rounded" (click)="previewReport()">Preview Report</button>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded" (click)="saveReport()">Save Report</button>
+        <!-- <button class="bg-blue-600 text-white px-4 py-2 rounded" (click)="saveReport()">Save Report</button> -->
       </div>
     </div>
   </section>
-</div>
 
 <section class="mb-6">
   <div class="content" style="width: 100%; height: 100%;">
-    <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
-      [rowData]="rowDataa"  (gridReady)="onGridReady($event)" rowSelection="single" rowModelType="clientSide">
-    </ag-grid-angular>
-  </div>
+  <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
+  [rowData]="rowDataa"  (gridReady)="onGridReady($event)" rowSelection="single" rowModelType="clientSide">
+</ag-grid-angular>
+</div>
 </section>

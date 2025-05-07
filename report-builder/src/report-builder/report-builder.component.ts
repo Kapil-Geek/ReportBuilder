@@ -4,7 +4,7 @@ import { availableModules, availableFields } from '../../data';
 import { CommonModule } from '@angular/common';
 import { AgGridAngular, AgGridModule } from "ag-grid-angular";
 import type { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-
+import reportData from "../app/reportData";
 import { ModuleRegistry } from 'ag-grid-community';
 import { ClientSideRowModelModule } from 'ag-grid-community';
 
@@ -38,12 +38,61 @@ export class ReportBuilderComponent {
   availableModules = [
     { label: 'Jobs', selected: true },
     { label: 'Timesheets', selected: false },
-    { label: 'Absence', selected: false }
+    { label: 'Invoice', selected: false }
   ];
 
-  availableJobFields = ['JobId', 'JobType', 'Client Name', 'Period End Date', 'Job Code', 'JobStatus'];
-  availableAbsenceFields = ['AbsenceId', 'AbsenceType', 'Absence Name', 'Absence End Date', 'Absence Code', 'Duration']
-  availableTimesheetsFields = ['Id', 'Type', 'Name', 'End Date', 'Code', 'Status']
+availableJobFields: string[] = [
+    "Job ID",
+    "Job Type",
+    "Period Ended",
+    "Code",
+    "Name",
+    "Target Start Date",
+    "Target End Date",
+    "Actual Closed Date",
+    "Agreed Fee",
+    "Allocated Hours Worked",
+    "Annual Accounts Month",
+    "Billing Group",
+    "Budget Total",
+    "Client Type",
+    "Client Type Subcategory",
+    "Contact Group",
+    "Contact Manager",
+    "Contact Partner",
+    "Current Job State",
+    "Current Job Status",
+    "Currently Responsible",
+    "Date Changed",
+    "Date of last Invoice",
+    "Effective Closed Date",
+    "Expected Cost",
+    "Invoice Total",
+    "Job Creation Date",
+    "Job Details",
+    "Job Manager",
+    "Job Partner",
+    "Minimum Fee",
+    "Non-Allocated Hours Worked",
+    "Opening WIP",
+    "Opening WIP Description",
+    "Owner",
+    "Priority"
+  ];
+  
+
+  // availableJobFields = ['JobId', 'JobType', 'Client Name', 'Period End Date', 'Job Code', 'JobStatus'];
+  availableInvoiceFields = ["Invoice Id",
+  "Invoice description",
+  "Invoice Total"]
+  availableTimesheetsFields = ["Total Hours Allocated",
+  "Total Hours Worked",
+  "Turnaround Time",
+  "WIP Total",
+  "Write-on",
+  "Reg25.101",
+  "Total Billable Hours",
+  "Timesheet Status"]
 
   selectedModules: string[] = [];
   selectedFields: any[] = []; // Replace with actual fields
@@ -52,6 +101,7 @@ export class ReportBuilderComponent {
   groupBy = '';
   columnDefs: ColDef[] = [];
   gridApi!: GridApi;
+ reportData : any = reportData;
 
 
   rowDataa: any[] = [];
@@ -89,20 +139,24 @@ export class ReportBuilderComponent {
   }
 
   previewReport() {
+    this.reportTitle = ""
     // Logic for preview
-    this.rowDataa = [
-      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-      { make: "Ford", model: "F-Series", price: 33850, electric: false },
-      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-    ];
+    // this.rowDataa = [
+    //   { JobID: "Tesla", model: "Model Y", price: 64950, electric: true },
+    //   { make: "Ford", model: "F-Series", price: 33850, electric: false },
+    //   { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+    // ];
 
-    // Column Definitions: Defines the columns to be displayed.
     this.columnDefs = [
-      { field: "make", flex: 1 },
-      { field: "model", flex: 1 },
-      { field: "price", flex: 1 },
-      { field: "electric", flex: 1 }
+      { field: "JobID", flex: 1 },
+      { field: "JobType", flex: 1 },
+      { field: "PeriodEnded", flex: 1 },
+      { field: "Code", flex: 1 },
+      { field: "Name", flex: 1 },
+      { field: "TargetStartDate", flex: 1 },
+      { field: "TargetEndDate", flex: 1 }
     ];
+    
     this.updateGrid();
   }
 
@@ -148,6 +202,6 @@ export class ReportBuilderComponent {
   }
 
   updateGrid() {
-    this.gridApi.setGridOption('rowData', this.rowDataa);
+    this.gridApi.setGridOption('rowData', this.reportData);
   }
 }
