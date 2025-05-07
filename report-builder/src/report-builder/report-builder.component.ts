@@ -5,6 +5,10 @@ import { CommonModule } from '@angular/common';
 import { AgGridModule } from "ag-grid-angular";
 import type { ColDef } from 'ag-grid-community';
 
+import { ModuleRegistry } from 'ag-grid-community';
+import { ClientSideRowModelModule } from 'ag-grid-community';
+
+
 @Component({
   selector: 'app-report-builder',
   standalone: true,
@@ -13,7 +17,22 @@ import type { ColDef } from 'ag-grid-community';
   styleUrl: './report-builder.component.css'
 })
 export class ReportBuilderComponent {
+  // columnDefs = [
+  //   { field: 'make' },
+  //   { field: 'model' },
+  //   { field: 'price' }
+  // ];
 
+  // rowData = [
+  //   { make: 'Toyota', model: 'Corolla', price: 35000 },
+  //   { make: 'Ford', model: 'Focus', price: 32000 },
+  //   { make: 'BMW', model: 'X5', price: 72000 }
+  // ];
+
+  constructor() {
+    // Register the ClientSideRowModelModule
+    ModuleRegistry.registerModules([ClientSideRowModelModule]);
+  }
   availableModules = [
     { label: 'Jobs', selected: true },
     { label: 'Timesheets', selected: false },
@@ -29,9 +48,9 @@ export class ReportBuilderComponent {
   appliedFilters: any[] = []; // Replace with actual filters
   reportTitle = '';
   groupBy = '';
-  colDefs: ColDef[] = [];
+  columnDefs: ColDef[] = [];
 
-  rowData: any[] = [];
+  rowDataa: any[] = [];
   columnData = [];
   sectionOpen = {
     fields: false,
@@ -44,7 +63,6 @@ export class ReportBuilderComponent {
   }
 
   updateModuleSelection() {
-    debugger;
     this.selectedModules = this.availableModules
       .filter(mod => mod.selected)
       .map(mod => mod.label);
@@ -65,23 +83,10 @@ export class ReportBuilderComponent {
   previewReport() {
     // Logic for preview
 
-    this.rowData = [
-      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-      { make: "Ford", model: "F-Series", price: 33850, electric: false },
-      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-    ];
 
-    // Column Definitions: Defines the columns to be displayed.
-    this.colDefs = [
-      { field: "make" },
-      { field: "model" },
-      { field: "price" },
-      { field: "electric" }
-    ];
   }
 
   saveReport() {
-    debugger;
     // Logic for saving report
   }
 
@@ -114,8 +119,23 @@ export class ReportBuilderComponent {
   }
 
   updateField(i: any, event: any) {
-    debugger;
     this.appliedFilters[i].field = event.target.value;
     this.appliedFilters[i].module = this.selectedFields.find(x => x.label == event.target.value).module;
+  }
+
+  onGridReady() {
+    this.rowDataa = [
+      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+      { make: "Ford", model: "F-Series", price: 33850, electric: false },
+      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+    ];
+
+    // Column Definitions: Defines the columns to be displayed.
+    this.columnDefs = [
+      { field: "make" },
+      { field: "model" },
+      { field: "price" },
+      { field: "electric" }
+    ];
   }
 }
