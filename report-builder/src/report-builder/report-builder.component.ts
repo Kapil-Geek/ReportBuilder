@@ -90,6 +90,10 @@ export class ReportBuilderComponent {
     // Logic for saving report
   }
 
+  clearAllFields(){
+
+  }
+
   updateSelectedField(item: any, _module: any) {
     this.selectedFields.push({ label: item, module: _module });
   }
