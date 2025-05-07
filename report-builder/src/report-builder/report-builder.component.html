@@ -1,222 +1,230 @@
-<div class="custom-report-builder p-6">
-  <h2 class="text-2xl font-bold mb-4">Custom Report Builder</h2>
+<div class="custom-report-builder p-8 bg-gray-50 min-h-screen">
+  <!-- Header with improved styling -->
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">Custom Report Builder</h2>
+    <p class="text-gray-600">Create customized reports by selecting modules, fields, and filters</p>
+  </div>
 
-  <!-- SECTION 1: Module Selection -->
-  <section class="mb-6">
-    <div class="bg-white shadow rounded-lg p-4">
-      <!-- Original Module Selection Block -->
-      <!-- KEEPING YOUR HTML UNCHANGED -->
-      <!-- Begin Module Selection -->
+  <!-- Section 1: Module Selection with enhanced UI -->
+  <section class="mb-8 transition-all duration-300">
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow">
       <div class="mb-6">
-        <h3 class="text-lg font-semibold mb-2">
-          <span class="ml-2 bg-gray-200 text-sm px-2 py-1 rounded"> {{ selectedModules.length }} Modules Selected</span>
-        </h3>
-        <p>Select one or more modules to include in your report.</p>
-        <div class="grid grid-cols-3 gap-4 mt-3">
-          <label *ngFor="let module of availableModules">
-            <input type="checkbox" [(ngModel)]="module.selected" (change)="updateModuleSelection()" />
-            {{ module.label }}
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold text-gray-800">1. Module Selection</h3>
+          <span class="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm font-medium">
+            {{ selectedModules.length }} Selected
+          </span>
+        </div>
+        <p class="text-gray-600 mb-4">Select one or more modules to include in your report.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+          <label *ngFor="let module of availableModules"
+            class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+            <input type="checkbox" [(ngModel)]="module.selected" (change)="updateModuleSelection()"
+              class="form-checkbox h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500" />
+            <span class="ml-3 text-gray-700">{{ module.label }}</span>
           </label>
         </div>
       </div>
-      <!-- End Module Selection -->
     </div>
   </section>
 
-  <!-- SECTION 2: Field Selection -->
-  <section class="mb-6">
-    <div class="bg-white shadow rounded-lg p-4">
-      <!-- Begin Field Selection -->
-      <div class="mb-6">
-        <h3 class="text-lg font-semibold cursor-pointer" (click)="toggleSection('fields')">
-          2. Field Selection
-          <span *ngIf="selectedFields.length" class="ml-2 bg-gray-200 text-sm px-2 py-1 rounded">{{
-            selectedFields.length }} Fields Selected</span>
-        </h3>
-        <div *ngIf="sectionOpen.fields">
-          <div class="p-4 bg-white rounded-b-lg">
-            <div class="flex mb-4">
-              <div class="relative w-full"><input placeholder="Search fields..."
-                  class="w-full p-2 pl-8 border border-gray-300 rounded-lg" type="text"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-search absolute left-2 top-3 text-gray-400">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </svg></div><button
-                class="ml-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg flex items-center text-sm"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-trash2 mr-1">
-                  <path d="M3 6h18"></path>
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                  <line x1="10" x2="10" y1="11" y2="17"></line>
-                  <line x1="14" x2="14" y1="11" y2="17"></line>
-                </svg> Clear All</button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="border border-gray-200 rounded-lg p-3">
-                <h3 class="font-medium mb-2">Available Fields</h3>
-                <div class="max-h-64 overflow-y-auto" *ngFor="let selectedModule of selectedModules">
-                  <div class="mb-4">
-                    <h4 class="text-sm font-medium text-gray-700 mb-1 bg-gray-100 p-1 rounded">{{selectedModule}}</h4>
-                    <ul *ngIf="selectedModule == 'Jobs'">
-                      <li *ngFor="let item of availableJobFields"
-                        class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
-                          {{item}}</span><button class="text-blue-600"
-                          (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
-                            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
-                          </svg></button></li>
-                    </ul>
+  <!-- Section 2: Field Selection with improved layout -->
+  <section class="mb-8">
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-xl font-semibold text-gray-800 flex items-center justify-between cursor-pointer"
+        (click)="toggleSection('fields')">
+        <span>2. Field Selection</span>
+        <span *ngIf="selectedFields.length" class="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm font-medium">
+          {{ selectedFields.length }} Selected
+        </span>
+      </h3>
 
-                    <ul *ngIf="selectedModule == 'Timesheets'">
-                      <li *ngFor="let item of availableTimesheetsFields"
-                        class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
-                          {{item}}</span><button class="text-blue-600"
-                          (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
-                            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
-                          </svg></button></li>
-                    </ul>
-                    <ul *ngIf="selectedModule == 'Invoice'">
-                      <li *ngFor="let item of availableInvoiceFields"
-                        class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
-                          {{item}}</span><button class="text-blue-600"
-                          (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
-                            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
-                          </svg></button></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="border border-gray-200 rounded-lg p-3">
-                <h3 class="font-medium mb-2">Selected Fields</h3>
-                <div class="max-h-64 overflow-y-auto">
-                  <ul class="space-y-2" *ngFor="let item of selectedFields">
-                    <li class="flex items-center justify-between p-2 bg-gray-50 rounded border border-gray-200">
-                      <div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                          stroke-linejoin="round" class="lucide lucide-grip-vertical text-gray-400 mr-2 cursor-move">
-                          <circle cx="9" cy="12" r="1"></circle>
-                          <circle cx="9" cy="5" r="1"></circle>
-                          <circle cx="9" cy="19" r="1"></circle>
-                          <circle cx="15" cy="12" r="1"></circle>
-                          <circle cx="15" cy="5" r="1"></circle>
-                          <circle cx="15" cy="19" r="1"></circle>
-                        </svg><span>{{item.label}}</span><span
-                          class="ml-2 text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">{{item.module}}</span>
-                      </div><button class="text-red-500" (click)="removeSelectedField(item)"><svg
-                          xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="lucide lucide-x">
-                          <path d="M18 6 6 18"></path>
-                          <path d="m6 6 12 12"></path>
-                        </svg></button>
-                    </li>
+      <!-- Keep existing field selection content with enhanced styling -->
+      <div *ngIf="sectionOpen.fields" class="mt-6">
+        <div class="p-4 bg-white rounded-b-lg">
+          <div class="flex mb-4">
+            <div class="relative w-full"><input placeholder="Search fields..."
+                class="w-full p-2 pl-8 border border-gray-300 rounded-lg" type="text"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-search absolute left-2 top-3 text-gray-400">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg></div><button
+              class="ml-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg flex items-center text-sm"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-trash2 mr-1">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                <line x1="10" x2="10" y1="11" y2="17"></line>
+                <line x1="14" x2="14" y1="11" y2="17"></line>
+              </svg> Clear All</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border border-gray-200 rounded-lg p-3">
+              <h3 class="font-medium mb-2">Available Fields</h3>
+              <div class="max-h-64 overflow-y-auto" *ngFor="let selectedModule of selectedModules">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-1 bg-gray-100 p-1 rounded">{{selectedModule}}</h4>
+                  <ul *ngIf="selectedModule == 'Jobs'">
+                    <li *ngFor="let item of availableJobFields"
+                      class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
+                        {{item}}</span><button class="text-blue-600"
+                        (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
+                          width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
+                          <path d="M5 12h14"></path>
+                          <path d="M12 5v14"></path>
+                        </svg></button></li>
+                  </ul>
+
+                  <ul *ngIf="selectedModule == 'Timesheets'">
+                    <li *ngFor="let item of availableTimesheetsFields"
+                      class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
+                        {{item}}</span><button class="text-blue-600"
+                        (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
+                          width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
+                          <path d="M5 12h14"></path>
+                          <path d="M12 5v14"></path>
+                        </svg></button></li>
+                  </ul>
+                  <ul *ngIf="selectedModule == 'Invoice'">
+                    <li *ngFor="let item of availableInvoiceFields"
+                      class="flex items-center justify-between p-2 hover:bg-gray-50 rounded cursor-pointer"><span>
+                        {{item}}</span><button class="text-blue-600"
+                        (click)="updateSelectedField(item, selectedModule)"><svg xmlns="http://www.w3.org/2000/svg"
+                          width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
+                          <path d="M5 12h14"></path>
+                          <path d="M12 5v14"></path>
+                        </svg></button></li>
                   </ul>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Field Selection -->
-    </div>
-  </section>
-
-  <!-- SECTION 3: Filters -->
-  <section class="mb-6">
-    <div class="bg-white shadow rounded-lg p-4">
-      <!-- Begin Filters Section -->
-      <div class="mb-6">
-        <h3 class="text-lg font-semibold cursor-pointer" (click)="toggleSection('filters')">
-          3. Advanced Filters
-          <span *ngIf="appliedFilters.length" class="ml-2 bg-gray-200 text-sm px-2 py-1 rounded">{{
-            appliedFilters.length }} Filters Applied</span>
-        </h3>
-        <div *ngIf="sectionOpen.filters">
-          <div class="p-4 bg-white rounded-b-lg">
-            <div class="mb-3 flex justify-between items-center">
-              <h3 class="text-sm font-medium">Filter rows where:</h3><button (click)="updateAppliedFilters()"
-                class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg flex items-center text-sm"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-plus mr-1">
-                  <path d="M5 12h14"></path>
-                  <path d="M12 5v14"></path>
-                </svg> Add Filter</button>
-            </div>
-            <div class="space-y-3 mb-4">
-              <div class="flex flex-wrap items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200"
-                *ngFor="let item of appliedFilters; let i = index"><select
-                  class="p-2 border border-gray-300 rounded-lg text-sm" (change)="updateField(i, $event)">
-                  <option value="{{selectedField.label}}" *ngFor="let selectedField of selectedFields">
-                    {{selectedField.label}}</option>
-                </select><select class="p-2 border border-gray-300 rounded-lg text-sm"
-                  (change)="updateAction(i, $event)">
-                  <option value="equals">equals</option>
-                  <option value="not-equals">not equals</option>
-                  <option value="contains">contains</option>
-                  <option value="greater-than">greater than</option>
-                  <option value="less-than">less than</option>
-                </select><input class="p-2 border border-gray-300 rounded-lg text-sm flex-grow" type="text" value=""
-                  (change)="updateValue(i, $event)"><button (click)="removeAppliedFilters(item)"
-                  class="p-2 text-red-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="lucide lucide-x">
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg></button></div>
+            <div class="border border-gray-200 rounded-lg p-3">
+              <h3 class="font-medium mb-2">Selected Fields</h3>
+              <div class="max-h-64 overflow-y-auto">
+                <ul class="space-y-2" *ngFor="let item of selectedFields">
+                  <li class="flex items-center justify-between p-2 bg-gray-50 rounded border border-gray-200">
+                    <div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-grip-vertical text-gray-400 mr-2 cursor-move">
+                        <circle cx="9" cy="12" r="1"></circle>
+                        <circle cx="9" cy="5" r="1"></circle>
+                        <circle cx="9" cy="19" r="1"></circle>
+                        <circle cx="15" cy="12" r="1"></circle>
+                        <circle cx="15" cy="5" r="1"></circle>
+                        <circle cx="15" cy="19" r="1"></circle>
+                      </svg><span>{{item.label}}</span><span
+                        class="ml-2 text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">{{item.module}}</span>
+                    </div><button class="text-red-500" (click)="removeSelectedField(item)"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-x">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                      </svg></button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- End Filters Section -->
     </div>
   </section>
 
-  <!-- SECTION 4: Output & Finalization -->
-  <section class="mb-6">
-    <div class="bg-white shadow rounded-lg p-4">
-      <!-- Begin Output Section -->
-      <div class="mb-6">
-        <h3 class="text-lg font-semibold cursor-pointer" (click)="toggleSection('output')">
-          4. Output & Finalization
-        </h3>
-        <div *ngIf="sectionOpen.output">
-          <label class="block mb-2">Report Title</label>
-          <input type="text" [(ngModel)]="reportTitle" class="border px-3 py-2 w-full mb-4" />
+  <!-- Section 3: Filters with modern styling -->
+  <section class="mb-8">
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-xl font-semibold text-gray-800 flex items-center justify-between cursor-pointer"
+        (click)="toggleSection('filters')">
+        <span>3. Advanced Filters</span>
+        <span *ngIf="appliedFilters.length" class="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm font-medium">
+          {{ appliedFilters.length }} Applied
+        </span>
+      </h3>
+
+      <!-- Keep existing filters content with enhanced styling -->
+      <div *ngIf="sectionOpen.filters" class="mt-6">
+        <div class="p-4 bg-white rounded-b-lg">
+          <div class="mb-3 flex justify-between items-center">
+            <h3 class="text-sm font-medium">Filter rows where:</h3><button (click)="updateAppliedFilters()"
+              class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg flex items-center text-sm"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-plus mr-1">
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path>
+              </svg> Add Filter</button>
+          </div>
+          <div class="space-y-3 mb-4">
+            <div class="flex flex-wrap items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200"
+              *ngFor="let item of appliedFilters; let i = index"><select
+                class="p-2 border border-gray-300 rounded-lg text-sm" (change)="updateField(i, $event)">
+                <option value="{{selectedField.label}}" *ngFor="let selectedField of selectedFields">
+                  {{selectedField.label}}</option>
+              </select><select class="p-2 border border-gray-300 rounded-lg text-sm" (change)="updateAction(i, $event)">
+                <option value="equals">equals</option>
+                <option value="not-equals">not equals</option>
+                <option value="contains">contains</option>
+                <option value="greater-than">greater than</option>
+                <option value="less-than">less than</option>
+              </select><input class="p-2 border border-gray-300 rounded-lg text-sm flex-grow" type="text" value=""
+                (change)="updateValue(i, $event)"><button (click)="removeAppliedFilters(item)"
+                class="p-2 text-red-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="lucide lucide-x">
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg></button></div>
+          </div>
         </div>
       </div>
-      <!-- End Output Section -->
     </div>
   </section>
 
-  <!-- Action Buttons -->
-  <section class="mb-6">
-    <div class="bg-white shadow rounded-lg p-4">
-      <div class="flex gap-4 justify-end">
-        <button class="bg-gray-200 px-4 py-2 rounded" (click)="cancel()">Cancel</button>
-        <!-- <button class="border px-4 py-2 rounded" (click)="saveDraft()">Save Draft</button> -->
-        <button class="bg-blue-100 text-blue-700 px-4 py-2 rounded" (click)="previewReport()">Preview Report</button>
-        <!-- <button class="bg-blue-600 text-white px-4 py-2 rounded" (click)="saveReport()">Save Report</button> -->
+  <!-- Section 4: Output & Finalization with enhanced UI -->
+  <section class="mb-8">
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">4. Output & Finalization</h3>
+      <div *ngIf="sectionOpen.output">
+        <label class="block text-gray-700 text-sm font-medium mb-2">Report Title</label>
+        <input type="text" [(ngModel)]="reportTitle"
+          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          placeholder="Enter report title..." />
       </div>
     </div>
   </section>
 
-<section class="mb-6">
-  <div class="content" style="width: 100%; height: 100%;">
-  <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
-  [rowData]="rowDataa"  (gridReady)="onGridReady($event)" rowSelection="single" rowModelType="clientSide">
-</ag-grid-angular>
+  <!-- Action Buttons with improved styling -->
+  <section class="sticky bottom-0 bg-white shadow-lg rounded-t-xl p-6 border-t">
+    <div class="max-w-7xl mx-auto flex justify-end gap-4">
+      <button class="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+        (click)="cancel()">
+        Cancel
+      </button>
+      <button class="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+        (click)="previewReport()">
+        Preview Report
+      </button>
+      <button class="border px-4 py-2 rounded" (click)="saveDraft()">Save Draft</button>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded" (click)="saveReport()">Save Report</button>
+    </div>
+  </section>
+
+  <section class="mb-6">
+    <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4" *ngIf="reportTitle != ''">5. {{reportTitle}}</h3>
+      <div class="content" style="width: 100%; height: 100%;">
+        <ag-grid-angular style="width: 100%; height: 400px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
+          [rowData]="rowDataa" (gridReady)="onGridReady($event)" rowSelection="single" rowModelType="clientSide">
+        </ag-grid-angular>
+      </div>
+    </div>
+  </section>
 </div>
-</section>
