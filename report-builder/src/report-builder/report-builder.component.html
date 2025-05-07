@@ -184,7 +184,7 @@
     <div *ngIf="sectionOpen.filters">
       <div class="p-4 bg-white rounded-b-lg">
         <div class="mb-3 flex justify-between items-center">
-          <h3 class="text-sm font-medium">Filter rows where:</h3><button
+          <h3 class="text-sm font-medium">Filter rows where:</h3><button (click)="updateAppliedFilters()"
             class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg flex items-center text-sm"><svg
               xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -194,17 +194,17 @@
             </svg> Add Filter</button>
         </div>
         <div class="space-y-3 mb-4">
-          <div class="flex flex-wrap items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200"><select
-              class="p-2 border border-gray-300 rounded-lg text-sm">
-              <option value="Job Status">Job Status</option>
-            </select><select class="p-2 border border-gray-300 rounded-lg text-sm">
+          <div class="flex flex-wrap items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200" *ngFor="let item of appliedFilters; let i = index"><select
+              class="p-2 border border-gray-300 rounded-lg text-sm" (change)="updateField(i, $event)">
+              <option value="{{selectedField.label}}" *ngFor="let selectedField of selectedFields">{{selectedField.label}}</option>
+            </select><select class="p-2 border border-gray-300 rounded-lg text-sm" (change)="updateAction(i, $event)">
               <option value="equals">equals</option>
               <option value="not-equals">not equals</option>
               <option value="contains">contains</option>
               <option value="greater-than">greater than</option>
               <option value="less-than">less than</option>
-            </select><input class="p-2 border border-gray-300 rounded-lg text-sm flex-grow" readonly="" type="text"
-              value="Active"><button class="p-2 text-red-500"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+            </select><input class="p-2 border border-gray-300 rounded-lg text-sm flex-grow" type="text"
+              value="" (change)="updateValue(i, $event)"><button class="p-2 text-red-500"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                 height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
                 <path d="M18 6 6 18"></path>

@@ -21,14 +21,9 @@ export class ReportBuilderComponent {
   availableAbsenceFields = ['AbsenceId', 'AbsenceType', 'Absence Name', 'Absence End Date', 'Absence Code', 'Duration']
   availableTimesheetsFields = ['Id', 'Type', 'Name', 'End Date', 'Code', 'Status']
 
-
-
   selectedModules: string[] = [];
   selectedFields: any[] = []; // Replace with actual fields
-  appliedFilters: string[] = []; // Replace with actual filters
-  jobsModuleFields = [];
-  TimesheetModuleFields = [];
-  absenceModuleFields = [];
+  appliedFilters: any[] = []; // Replace with actual filters
   reportTitle = '';
   groupBy = '';
 
@@ -66,6 +61,7 @@ export class ReportBuilderComponent {
   }
 
   saveReport() {
+    debugger;
     // Logic for saving report
   }
 
@@ -75,5 +71,31 @@ export class ReportBuilderComponent {
 
   removeSelectedField(item:any){
     this.selectedFields = this.selectedFields.filter(x=> x.label != item.label);
+  }
+
+  // updateAppliedFilters(_field : any, _module: any, _action: any, _value: any){
+  //   this.selectedFields.push({field: _field, module: _module, action: _action, value: _value});
+  // }
+
+  updateAppliedFilters(){
+    this.appliedFilters.push({field:'', module: '', action: '', value: ''});
+  }
+
+  removeAppliedFilters(item:any){
+    this.appliedFilters = this.appliedFilters.filter(x=> x.field != item.field);
+  }
+
+  updateAction(i:any, event: any){
+    this.appliedFilters[i].action = event.target.value;
+  }
+
+  updateValue(i:any, event: any){
+    this.appliedFilters[i].value = event.target.value;
+  }
+
+  updateField(i:any, event: any){
+    debugger;
+    this.appliedFilters[i].field = event.target.value;
+    this.appliedFilters[i].module = this.selectedFields.find(x=> x.label == event.target.value).module;
   }
 }
