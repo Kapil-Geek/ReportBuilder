@@ -1,0 +1,178 @@
+<div class="bg-white p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">Custom Report Builder</h1>
+      <p class="text-gray-600">Create custom reports by selecting modules, fields, and filters</p>
+    </div>
+  
+    <!-- Module Selection Section -->
+    <div class="mb-4 border border-gray-200 rounded-lg shadow-sm">
+      <div class="flex items-center justify-between bg-gray-100 p-4 rounded-t-lg cursor-pointer border-b border-gray-200"
+           (click)="toggleSection('moduleSelection')">
+        <div class="flex items-center space-x-2">
+          <h2 class="text-lg font-semibold">Module Selection</h2>
+          <span class="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+            {{ selectedModules.length }} Modules Selected
+          </span>
+        </div>
+        <span>
+          <i *ngIf="expandedSections.moduleSelection" class="chevron-up"></i>
+          <i *ngIf="!expandedSections.moduleSelection" class="chevron-down"></i>
+        </span>
+      </div>
+  
+      <div *ngIf="expandedSections.moduleSelection" class="p-4 bg-white rounded-b-lg">
+        <p class="mb-2 text-sm text-gray-600">Select one or more modules to include in your report:</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div *ngFor="let module of availableModules"
+               (click)="toggleModule(module.name)"
+               [ngClass]="{
+                 'bg-blue-50 border-blue-300': selectedModules.includes(module.name),
+                 'border-gray-200': !selectedModules.includes(module.name)
+               }"
+               class="p-3 border rounded-lg cursor-pointer flex items-center space-x-2 select-none">
+            <input type="checkbox"
+                   [checked]="selectedModules.includes(module.name)"
+                   readonly
+                   class="h-4 w-4 text-blue-600" />
+            <span>{{ module.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Field Selection Section -->
+    <div class="mb-4 border border-gray-200 rounded-lg shadow-sm">
+      <div class="flex items-center justify-between bg-gray-100 p-4 rounded-t-lg cursor-pointer border-b border-gray-200"
+           (click)="toggleSection('fieldSelection')">
+        <div class="flex items-center space-x-2">
+          <h2 class="text-lg font-semibold">Field Selection</h2>
+          <span class="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+            {{ selectedFields.length }} Fields Selected
+          </span>
+        </div>
+        <span>
+          <i *ngIf="expandedSections.fieldSelection" class="chevron-up"></i>
+          <i *ngIf="!expandedSections.fieldSelection" class="chevron-down"></i>
+        </span>
+      </div>
+  
+      <div *ngIf="expandedSections.fieldSelection" class="p-4 bg-white rounded-b-lg">
+        <p class="mb-2 text-sm text-gray-600">Select fields from chosen modules:</p>
+        <div *ngFor="let moduleName of selectedModules" class="mb-4">
+          <h3 class="font-semibold mb-2">{{ moduleName }}</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div *ngFor="let field of availableFields[moduleName]"
+                 (click)="toggleField(field.id)"
+                 [ngClass]="{
+                   'bg-green-50 border-green-300': selectedFields.includes(field.id),
+                   'border-gray-200': !selectedFields.includes(field.id)
+                 }"
+                 class="p-3 border rounded-lg cursor-pointer flex items-center space-x-2 select-none">
+              <input type="checkbox"
+                     [checked]="selectedFields.includes(field.id)"
+                     readonly
+                     class="h-4 w-4 text-green-600" />
+              <span>{{ field.name }}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedModules.length === 0" class="text-gray-500 italic">Please select modules above to see fields.</div>
+      </div>
+    </div>
+  
+    <!-- Advanced Filters Section -->
+    <div class="mb-4 border border-gray-200 rounded-lg shadow-sm">
+      <div class="flex items-center justify-between bg-gray-100 p-4 rounded-t-lg cursor-pointer border-b border-gray-200"
+           (click)="toggleSection('advancedFilters')">
+        <div class="flex items-center space-x-2">
+          <h2 class="text-lg font-semibold">Advanced Filters</h2>
+          <span class="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+            {{ selectedFilters.length }} Filters Selected
+          </span>
+        </div>
+        <span>
+          <i *ngIf="expandedSections.advancedFilters" class="chevron-up"></i>
+          <i *ngIf="!expandedSections.advancedFilters" class="chevron-down"></i>
+        </span>
+      </div>
+  
+      <div *ngIf="expandedSections.advancedFilters" class="p-4 bg-white rounded-b-lg">
+        <p class="mb-2 text-sm text-gray-600">Choose filters to refine your report data:</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div *ngFor="let filter of availableFilters"
+               (click)="toggleFilter(filter)"
+               [ngClass]="{
+                 'bg-yellow-50 border-yellow-300': selectedFilters.findIndex(f => f.field === filter.field && f.condition === filter.condition && f.value === filter.value) !== -1,
+                 'border-gray-200': selectedFilters.findIndex(f => f.field === filter.field && f.condition === filter.condition && f.value === filter.value) === -1
+               }"
+               class="p-3 border rounded-lg cursor-pointer select-none">
+            <div class="flex items-center space-x-2">
+              <input type="checkbox"
+                     [checked]="selectedFilters.findIndex(f => f.field === filter.field && f.condition === filter.condition && f.value === filter.value) !== -1"
+                     readonly
+                     class="h-4 w-4 text-yellow-600" />
+              <span>{{ filter.field }} {{ filter.condition }} {{ filter.value }}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="availableFilters.length === 0" class="text-gray-500 italic">No filters available.</div>
+      </div>
+    </div>
+  
+    <!-- Output & Finalization Section -->
+    <div class="mb-4 border border-gray-200 rounded-lg shadow-sm">
+      <div class="flex items-center justify-between bg-gray-100 p-4 rounded-t-lg cursor-pointer border-b border-gray-200"
+           (click)="toggleSection('outputSettings')">
+        <div class="flex items-center space-x-2">
+          <h2 class="text-lg font-semibold">Output & Finalization</h2>
+          <span class="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+            Output Type: {{ outputType | uppercase }}
+          </span>
+        </div>
+        <span>
+          <i *ngIf="expandedSections.outputSettings" class="chevron-up"></i>
+          <i *ngIf="!expandedSections.outputSettings" class="chevron-down"></i>
+        </span>
+      </div>
+  
+      <div *ngIf="expandedSections.outputSettings" class="p-4 bg-white rounded-b-lg space-y-4">
+        <label class="block">
+          <span class="text-gray-700 font-semibold">Report Title</span>
+          <input type="text"
+                 [(ngModel)]="reportTitle"
+                 placeholder="Enter report title"
+                 class="mt-1 block w-full rounded-md border border-gray-300 p-2" />
+        </label>
+  
+        <label class="block">
+          <span class="text-gray-700 font-semibold">Output Format</span>
+          <select [(ngModel)]="outputType" class="mt-1 block w-full rounded-md border border-gray-300 p-2">
+            <option value="table">Table</option>
+            <option value="csv">CSV</option>
+            <option value="pdf">PDF</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  
+    <div class="sticky bottom-0 bg-white py-4 shadow-md rounded-b-lg flex justify-end space-x-4 px-6 border-t border-gray-200">
+      <button class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none">
+        Cancel
+      </button>
+      <button class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none">
+        Save Draft
+      </button>
+      <button class="px-4 py-2 bg-blue-100 border border-blue-300 rounded-md text-blue-700 hover:bg-blue-200 focus:outline-none">
+        Preview Report
+      </button>
+      <button class="px-4 py-2 bg-blue-500 rounded-md text-white hover:bg-blue-600 focus:outline-none">
+        Save Report
+      </button>
+    </div>
+  </div>
+  
+  
+  
+
+  <app-panel></app-panel>
+  
