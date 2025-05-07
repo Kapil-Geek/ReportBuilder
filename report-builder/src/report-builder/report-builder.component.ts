@@ -2,15 +2,18 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { availableModules, availableFields } from '../../data';
 import { CommonModule } from '@angular/common';
+import { AgGridModule } from "ag-grid-angular";
+import type { ColDef } from 'ag-grid-community';
 
 @Component({
   selector: 'app-report-builder',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, AgGridModule],
   templateUrl: './report-builder.component.html',
   styleUrl: './report-builder.component.css'
 })
 export class ReportBuilderComponent {
+
   availableModules = [
     { label: 'Jobs', selected: true },
     { label: 'Timesheets', selected: false },
@@ -26,7 +29,10 @@ export class ReportBuilderComponent {
   appliedFilters: any[] = []; // Replace with actual filters
   reportTitle = '';
   groupBy = '';
+  colDefs: ColDef[] = [];
 
+  rowData: any[] = [];
+  columnData = [];
   sectionOpen = {
     fields: false,
     filters: false,
@@ -58,6 +64,20 @@ export class ReportBuilderComponent {
 
   previewReport() {
     // Logic for preview
+
+    this.rowData = [
+      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+      { make: "Ford", model: "F-Series", price: 33850, electric: false },
+      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+    ];
+
+    // Column Definitions: Defines the columns to be displayed.
+    this.colDefs = [
+      { field: "make" },
+      { field: "model" },
+      { field: "price" },
+      { field: "electric" }
+    ];
   }
 
   saveReport() {
@@ -65,37 +85,37 @@ export class ReportBuilderComponent {
     // Logic for saving report
   }
 
-  updateSelectedField(item:any, _module: any){
-    this.selectedFields.push({label: item, module: _module});
+  updateSelectedField(item: any, _module: any) {
+    this.selectedFields.push({ label: item, module: _module });
   }
 
-  removeSelectedField(item:any){
-    this.selectedFields = this.selectedFields.filter(x=> x.label != item.label);
+  removeSelectedField(item: any) {
+    this.selectedFields = this.selectedFields.filter(x => x.label != item.label);
   }
 
   // updateAppliedFilters(_field : any, _module: any, _action: any, _value: any){
   //   this.selectedFields.push({field: _field, module: _module, action: _action, value: _value});
   // }
 
-  updateAppliedFilters(){
-    this.appliedFilters.push({field:'', module: '', action: '', value: ''});
+  updateAppliedFilters() {
+    this.appliedFilters.push({ field: '', module: '', action: '', value: '' });
   }
 
-  removeAppliedFilters(item:any){
-    this.appliedFilters = this.appliedFilters.filter(x=> x.field != item.field);
+  removeAppliedFilters(item: any) {
+    this.appliedFilters = this.appliedFilters.filter(x => x.field != item.field);
   }
 
-  updateAction(i:any, event: any){
+  updateAction(i: any, event: any) {
     this.appliedFilters[i].action = event.target.value;
   }
 
-  updateValue(i:any, event: any){
+  updateValue(i: any, event: any) {
     this.appliedFilters[i].value = event.target.value;
   }
 
-  updateField(i:any, event: any){
+  updateField(i: any, event: any) {
     debugger;
     this.appliedFilters[i].field = event.target.value;
-    this.appliedFilters[i].module = this.selectedFields.find(x=> x.label == event.target.value).module;
+    this.appliedFilters[i].module = this.selectedFields.find(x => x.label == event.target.value).module;
   }
 }
