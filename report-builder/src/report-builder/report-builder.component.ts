@@ -13,16 +13,22 @@ import { CommonModule } from '@angular/common';
 export class ReportBuilderComponent {
   availableModules = [
     { label: 'Jobs', selected: true },
-    { label: 'Timesheets', selected: true },
-    { label: 'Absence', selected: true },
-    { label: 'Financials', selected: false },
-    { label: 'Projects', selected: false },
-    { label: 'Personnel', selected: false },
+    { label: 'Timesheets', selected: false },
+    { label: 'Absence', selected: false }
   ];
 
+  availableJobFields = ['JobId', 'JobType', 'Client Name', 'Period End Date', 'Job Code', 'JobStatus'];
+  availableAbsenceFields = ['AbsenceId', 'AbsenceType', 'Absence Name', 'Absence End Date', 'Absence Code', 'Duration']
+  availableTimesheetsFields = ['Id', 'Type', 'Name', 'End Date', 'Code', 'Status']
+
+
+
   selectedModules: string[] = [];
-  selectedFields: string[] = []; // Replace with actual fields
+  selectedFields: any[] = []; // Replace with actual fields
   appliedFilters: string[] = []; // Replace with actual filters
+  jobsModuleFields = [];
+  TimesheetModuleFields = [];
+  absenceModuleFields = [];
   reportTitle = '';
   groupBy = '';
 
@@ -37,6 +43,7 @@ export class ReportBuilderComponent {
   }
 
   updateModuleSelection() {
+    debugger;
     this.selectedModules = this.availableModules
       .filter(mod => mod.selected)
       .map(mod => mod.label);
@@ -60,5 +67,13 @@ export class ReportBuilderComponent {
 
   saveReport() {
     // Logic for saving report
+  }
+
+  updateSelectedField(item:any, _module: any){
+    this.selectedFields.push({label: item, module: _module});
+  }
+
+  removeSelectedField(item:any){
+    this.selectedFields = this.selectedFields.filter(x=> x.label != item.label);
   }
 }
